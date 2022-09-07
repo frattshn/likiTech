@@ -1,0 +1,442 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<style>
+body {
+	font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #FFF;
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
+}
+
+.sidenav a {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+}
+
+.sidenav a:hover {
+	color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+	.sidenav {
+		padding-top: 15px;
+	}
+	.sidenav a {
+		font-size: 18px;
+	}
+}
+
+.forMenu {
+	height: 100%
+}
+
+#home_button {
+	width: 50px;
+	height: 50px;
+	background-image: url('NewProfileIcon.png');
+	background-size: cover;
+	background-color: rgba(0, 0, 0, 0);
+	border-style: none;
+}
+
+/* The container div - needed to position the dropdown content */
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 100px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+.dropdown-content {
+	right: 0;
+}
+
+.show {
+	display: block;
+}
+
+aaa:hover {
+	background-color: yellow;
+}
+
+.customTitleBar>.ui-panel-titlebar {
+	background: #BBBBBB;
+}
+
+.KAYIT_PANEL.ui-panel .ui-panel-titlebar {
+	color: #eaf2ff;
+	background: #425af0;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover
+	{
+	background: #d3e2fb;
+}
+
+body .ui-panel .ui-panel-titlebar .ui-panel-titlebar-icon {
+	color: #eaf2ff;
+}
+
+body .ui-button {
+	background: #425af0;
+	border: 3px solid #2a44e9;
+	color: #eaf2ff;
+}
+
+body .ui-button.ui-state-hover {
+	background: #2d46e3;
+	border-color: #0e27c3;
+}
+
+body .ui-panel .ui-panel-content {
+	background: #fdfdfd;
+}
+
+body .ui-paginator {
+	background: #425af0;
+}
+
+body .ui-paginator .ui-paginator-current {
+	color: #eaf2ff;
+}
+
+body .ui-paginator .ui-paginator-first, body .ui-paginator .ui-paginator-prev,
+	body .ui-paginator .ui-paginator-next, body .ui-paginator .ui-paginator-last
+	{
+	color: #eaf2ff;
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page {
+	color: #eaf2ff;
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-hover
+	{
+	background: #eaf2ff;
+}
+
+body .ui-datatable thead th {
+	background: #eaf2ff;
+}
+
+body .ui-datatable thead th.ui-state-hover {
+	background: #d7e5fb;
+}
+
+body .ui-datatable .ui-datatable-data>tr {
+	background: #fdfdfd;
+	color: #0f1012;
+}
+
+body .ui-datatable .ui-paginator {
+	padding: 5px;
+}
+
+body .ui-paginator {
+	border: solid #425af0;
+}
+
+body .ui-datatable thead th {
+	padding: 13px 1rem;
+}
+
+body .ui-datatable .ui-datatable-data>tr>td {
+	padding: 10px 1rem;
+}
+
+body .ui-inputfield {
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 2px 5px 0
+		rgba(0, 0, 0, 0.10);
+}
+
+body .ui-paginator .ui-paginator-current {
+	color: #eaf2ff;
+	font-weight: 500;
+}
+
+.P_EKLE.ui-button .ui-button-text {
+	display: block;
+	line-height: normal;
+	margin-top: -6px;
+}
+
+body .ui-datatable .ui-datatable-data>tr.ui-state-highlight {
+	background: #ededed;
+}
+
+body .ui-datatable .ui-datatable-data>tr .ui-row-editor>a {
+	color: #425af0;
+}
+
+body .ui-datatable .ui-datatable-data>tr.ui-state-highlight .ui-row-editor>a
+	{
+	color: #425af0;
+}
+
+body .ui-datatable .ui-datatable-data>tr .ui-row-editor>a:hover {
+	background: #dddddd;
+	color: #425af0;
+}
+
+.SIL_BUTON.ui-button.ui-state-hover {
+	background: #425af0;
+}
+
+body .ui-paginator .ui-paginator-first.ui-state-hover, body .ui-paginator .ui-paginator-prev.ui-state-hover,
+	body .ui-paginator .ui-paginator-next.ui-state-hover, body .ui-paginator .ui-paginator-last.ui-state-hover
+	{
+	background: #eaf2ff;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-text
+	{
+	color: #ffffff;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-icon
+	{
+	color: #ffffff;
+}
+
+body .ui-menu .ui-menu-list .ui-widget-header h3 {
+	color: #ffffff;
+}
+
+body .ui-menu .ui-menu-list .ui-widget-header.ui-state-hover .ui-icon {
+	color: #ffffff;
+}
+</style>
+</h:head>
+
+
+<body
+	style="margin: 0px; background-color: white; background-size: cover;"
+	onload="startTime()">
+	<div class="card">
+		<h:form
+			style="width: 100%;height: 65px;position: fixed;top: 0px;background-color: rgb(66,90,240);box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15), 0 4px 15px 0 rgba(0, 0, 0, 0.15);z-index: 10;">
+			<img src="LikiTechLogoTitle.png"
+				style="left: 5px; position: fixed; top: 0px; display: block; width: 230px;">
+			</img>
+			<!-- <div class="logoTitle" style="width: 100%;">
+				<img src="logotest.png"
+					style="position: fixed; top: 0px; display: block; width: 65px;">
+				</img>
+				<p:outputLabel value="LikiTech"
+					style="position: fixed;margin-top: 5px;top: 0px;margin-left: 70px;color: white;display: block; width:100%;font-size: 35px" />
+			</div> -->
+			<div class="timedate"
+				style="margin-top: -5px; font-size: 16px; font-weight: 600; color: white; position: fixed; right: 100px;">
+				<p id="date"></p>
+				<p id="current" style="margin-left: 7px; margin-top: -10px;"></p>
+			</div>
+			<div class="gosteri"
+				style="left: 250px; margin-top: 20px; position: fixed; color: white;">
+				<i class="pi pi-home"></i> <i class="pi pi-chevron-right"></i>
+				<p:outputLabel value="Hesap Ekle" style="margin-left: 5px;" />
+				<i class="pi pi-chevron-right"></i>
+				<p:outputLabel value="Bireysel" style="margin-left: 5px;" />
+			</div>
+			<p:menubar style="background-color: rgba(0, 0, 0, 0); border: none">
+				<f:facet name="options">
+					<div class="dropdown">
+						<button id="home_button"></button>
+						<div class="dropdown-content">
+							<p:commandButton value="Hesabım"
+								style="color: black;margin-top: 5%;background-color: rgba(0, 0, 0, 0);border-color: rgba(0, 0, 0, 0);" />
+							<p:commandButton value="Çıkış Yap"
+								style="color: black;margin-top: 5%;background-color: rgba(0, 0, 0, 0);border-color: rgba(0, 0, 0, 0);" />
+						</div>
+					</div>
+				</f:facet>
+			</p:menubar>
+		</h:form>
+	</div>
+
+	<div class="card22" style="height: 100%;">
+		<h:form
+			style="height: 100%;margin-top: 65px;width: 225px;position: fixed;top: 0;left: 0;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);padding-top: 40px;background-color: rgb(35, 48, 131);z-index: 1;">
+			<div class="card">
+				<p:menu toggleable="true"
+					style="width: 225px;margin-top: -45px;background-color: rgba(0, 0, 0, 0); border: none">
+					<p:menuitem value="Ana Sayfa" icon="pi pi-home"
+						url="http://localhost:8080/likitechWeb/co/anasayfa.xhtml"
+						style="width: 225px;" />
+					<p:submenu label="Müşteri Ekle"
+						style="background-color: rgba(0, 0, 0, 0); border: none;">
+						<p:menuitem value="Bireysel" ajax="false" icon="pi pi-user"
+							url="http://localhost:8080/likitechWeb/co/musteriBireyselEkle.xhtml"
+							style="margin-left: 15px;width: 210px;" />
+						<p:menuitem value="Kurumsal" icon="pi pi-building"
+							url="http://localhost:8080/likitechWeb/co/musteriKurumsalEkle.xhtml"
+							style="color: white;margin-left: 15px;width: 210px;" />
+					</p:submenu>
+					<p:submenu label="Hesap Ekle"
+						style="background-color: rgba(0, 0, 0, 0); border: none;">
+						<p:menuitem value="Bireysel" ajax="false" icon="pi pi-user"
+							url="http://localhost:8080/likitechWeb/co/hesapBireyselEkle.xhtml"
+							style="margin-left: 15px;width: 210px;" />
+						<p:menuitem value="Kurumsal" icon="pi pi-building"
+							url="http://localhost:8080/likitechWeb/co/hesapKurumsalEkle.xhtml"
+							style="color: white;margin-left: 15px;width: 210px;" />
+					</p:submenu>
+					<p:menuitem value="Fon Tanımı" icon="pi pi-chart-bar"
+						url="http://localhost:8080/likitechWeb/co/fonTanim.xhtml"
+						style="width: 225px;" />
+					<p:menuitem value="Fon İşlemleri" icon="pi pi-shopping-cart"
+						url="http://localhost:8080/likitechWeb/co/fonAlimSatim.xhtml"
+						style="width: 225px;" />
+					<p:menuitem value="Fon Fiyat Belirleme" icon="pi pi-tag"
+						url="http://localhost:8080/likitechWeb/co/fonFiyat.xhtml"
+						style="width: 225px;" />
+					<p:menuitem value="Havale Provizyon" icon="pi pi-money-bill"
+						url="http://localhost:8080/likitechWeb/co/havaleProvizyon.xhtml"
+						style="width: 225px;" />
+					<p:menuitem value="Personel Ekle" icon="pi pi-user-plus"
+						url="http://localhost:8080/likitechWeb/co/personelEkle.xhtml"
+						style="width: 225px;" />
+				</p:menu>
+			</div>
+		</h:form>
+	</div>
+
+	<div class="card223232" style="margin-left: 125px;">
+		<h:form>
+			<p:panel header="Bireysel Hesap Ekle" toggleable="false"
+				toggleSpeed="800" closeSpeed="800" styleClass="KAYIT_PANEL"
+				style="margin: 0 auto;margin-top: 20%;min-width: 750px;max-width: 750px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 3px 10px 0 rgba(0, 0, 0, 0.10);">
+
+				<p:panelGrid id="hesapEkle" columns="2"
+					styleClass="ui-panelgrid-blank" cellpadding="2"
+					style="margin: 0 auto;">
+
+					<p:outputLabel for="@next" value="Bireysel Müşteri Seçiniz" />
+					<p:selectOneMenu id="advancedASDASD"
+						value="#{hesapEkleBean.secilmisBireyselMusteriId}"
+						style="width: 250px;" effect="fade" filter="true"
+						filterMatchMode="startsWith">
+
+						<f:selectItems value="#{hesapEkleBean.musteriBireyseller}"
+							var="musteri" itemLabel="#{musteri.musteriAdi}"
+							itemValue="#{musteri.musteriID}" />
+						<f:facet name="footer">
+							<h:outputText value="#{hesapEkleBean.secilmisBireyselMusteriId}"
+								style="font-weight:bold;" styleClass="py-1 block" />
+						</f:facet>
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Hesap Türü Seçiniz" />
+					<p:selectOneMenu value="#{hesapEkleBean.hesapTuru}" required="true"
+						style="width: 250px;">
+						<f:selectItem itemLabel="TL ₺" itemValue="TL" />
+						<f:selectItem itemLabel="USD $" itemValue="USD" />
+						<f:selectItem itemLabel="EURO €" itemValue="EURO" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Portföy No" style="color: black;" />
+					<p:inputText id="portfoyNo" value="#{hesapEkleBean.portfoyNo}"
+						required="true" requiredMessage="Portföy No Giriniz"
+						style="width: 250px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 3px 10px 0 rgba(0, 0, 0, 0.10);" />
+				</p:panelGrid>
+
+				<p:panelGrid id="kaydetmeler" columns="1"
+					styleClass="ui-panelgrid-blank" cellpadding="1"
+					style="margin: 0 auto;">
+					<p:commandButton value="Kaydet"
+						actionListener="#{hesapEkleBean.hesapBireyselEkle()}"
+						styleClass="P_EKLE"
+						style="width: 200px;height: 45px;font-size: 20px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 3px 10px 0 rgba(0, 0, 0, 0.10);" />
+				</p:panelGrid>
+
+			</p:panel>
+		</h:form>
+	</div>
+	<p:spacer height="50" />
+	<script>
+  
+  function startTime() {
+	  var today = new Date();
+	  var h = today.getHours();
+	  var m = today.getMinutes();
+	  var s = today.getSeconds();
+	  m = checkTime(m);
+	  s = checkTime(s);
+	  document.getElementById('current').innerHTML =
+	    h + ":" + m + ":" + s;
+	  var t = setTimeout(startTime, 500);
+	}
+
+	function checkTime(i) {
+	  if (i &lt; 10) {
+	    i = "0" + i
+	  };
+	  return i;
+	}
+	
+	
+
+</script>
+	<script>
+n =  new Date();
+y = n.getFullYear();
+m = n.getMonth() + 1;
+d = n.getDate();
+document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
+</script>
+</body>
+</html>

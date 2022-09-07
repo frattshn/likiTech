@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<style>
+body .ui-dialog .ui-dialog-titlebar {
+	background: #425af0;
+	color: #eaf2ff;
+	font-weight: 700;
+	border-bottom: 0 none;
+	padding: 5px;
+}
+
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon {
+	color: #eaf2ff;
+}
+
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+	margin: 0;
+	float: none;
+	font-size: 1.2rem;
+}
+
+body .ui-dialog .ui-dialog-titlebar {
+	font-weight: 600;
+}
+
+body .ui-button {
+	background: #425af0;
+	border: 3px solid #2a44e9;
+	color: #eaf2ff;
+}
+
+body .ui-button.ui-state-hover {
+	background: #2d46e3;
+	border-color: #0e27c3;
+}
+</style>
+</h:head>
+<p:growl id="growl" life="4000" />
+<h:body
+	style="margin: 0px;background-image: url('BlueVectorBG.jpg');background-size: cover;">
+	<h:panelGroup style="position: center">
+
+		<h:form id="LoginForm"
+			style="margin: auto;width: 800px;height: 100vh;background-color: grey;background: rgba(132,173,255, 0.60);">
+			<p:panelGrid id="loginHeaderContainer" columns="1"
+				styleClass="ui-panelgrid-blank" cellpadding="5"
+				style="margin: auto;width: 100%;">
+				<p:panelGrid id="headerContainer" columns="1"
+					styleClass="ui-noborder" cellpadding="5"
+					style="margin: auto;margin-top: 30%">
+					<img src="OldLogo.png"
+						style="display: block; margin-left: auto; margin-right: auto; width: 200px;">
+					</img>
+					<p:outputLabel value="LikiTech'e Giriş"
+						style="color: white;display: block; width:100%; text-align:center;font-size: 50px" />
+					<p:outputLabel
+						value="Bağımsız likit fon alım satım platformuna hoş geldiniz."
+						style="color: white;display: block;width: 100%;text-align:center;font-size: 25px;" />
+				</p:panelGrid>
+				<p:panelGrid id="loginContainer" columns="2"
+					styleClass="ui-noborder" cellpadding="500" style="margin: 0 auto;">
+					<p:outputLabel value="Kullanıcı Adı"
+						style="color: white;font-size: 20px;" />
+					<p:inputText placeholder="Kullanıcı adınızı yazınız..."
+						required="true" requiredMessage="Kullanıcı Adı Boş Bırakılamaz"
+						style="border-color: white;color: white;border-width: 2px;background: transparent;width: 300px"
+						value="#{girisBean.personelKullaniciAdi}" />
+					<p:outputLabel value="Şifre" style="color: white;font-size: 20px;" />
+					<p:password placeholder="Şifrenizi yazınız..." required="true"
+						requiredMessage="Şifre Boş Bırakılamaz" id="password"
+						style="border-color: white;opacity: 1;color: white;border-width: 2px;background: transparent;width: 300px"
+						value="#{girisBean.personelSifresi}" toggleMask="true"
+						redisplay="true" />
+					<p:commandLink onclick="PF('dlg2').show()" style="font-size: 18px;"
+						class="mr-4" value="Şifremi Unuttum" />
+					<p:commandButton
+						style="font-size: 18px;width: 130px;margin: auto;margin-left: 57%"
+						actionListener="#{girisBean.giris()}" value="Giriş Yap"
+						icon="fa fa-key" process="loginPanel" ajax="false"
+						id="loginButton" />
+
+
+					<p:dialog header="Şifremi Unuttum" widgetVar="dlg2" minHeight="220"
+						id="dialog" maxHeight="220" minwidth="550" showEffect="fade"
+						modal="true" resizable="false" draggable="false">
+						<p:panel id="sifreUnutForm">
+							<p:panelGrid id="loginContainerRERERER" columns="2"
+								styleClass="ui-noborder" cellpadding="500"
+								style="margin: 0 auto;">
+								<p:outputLabel value="Personel Maili" style="color: black;" />
+								<p:inputText id="alici" value="#{girisBean.alici}"
+									requiredMessage="Kurum Adı Giriniz"
+									style="width: 250px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 3px 10px 0 rgba(0, 0, 0, 0.10);" />
+							</p:panelGrid>
+							<p:panelGrid id="loginContainerAADDDSDADSA" columns="1"
+								styleClass="ui-noborder" cellpadding="500"
+								style="margin: 0 auto;">
+								<p:commandButton value="Gönder" update="sifreUnutForm" process="sifreUnutForm"
+									actionListener="#{girisBean.mailGonder()}" styleClass="P_EKLE"
+									style="margin: 0 auto;width: 130px;font-size: 18px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 3px 10px 0 rgba(0, 0, 0, 0.10);" />
+							</p:panelGrid>
+						</p:panel>
+					</p:dialog>
+				</p:panelGrid>
+			</p:panelGrid>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</html>
