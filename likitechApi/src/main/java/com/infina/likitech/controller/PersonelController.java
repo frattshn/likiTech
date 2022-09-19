@@ -25,7 +25,16 @@ import com.infina.likitech.entity.FonIslem;
 import com.infina.likitech.entity.FonStok;
 import com.infina.likitech.entity.Hesap;
 import com.infina.likitech.entity.Personel;
+import com.infina.likitech.exception.FonCouldntAddException;
+import com.infina.likitech.exception.FonCouldntUpdatedException;
+import com.infina.likitech.exception.FonFiyatCouldntAddException;
+import com.infina.likitech.exception.FonIslemCouldntAddException;
+import com.infina.likitech.exception.FonIslemNotFoundException;
 import com.infina.likitech.exception.FonNotFoundException;
+import com.infina.likitech.exception.FonStokCouldntAddException;
+import com.infina.likitech.exception.FonStokCouldntUpdatedException;
+import com.infina.likitech.exception.FonStokNotFoundException;
+import com.infina.likitech.exception.HesapDtoNotFoundException;
 import com.infina.likitech.exception.HesapNotFoundException;
 import com.infina.likitech.exception.MusteriAlreadyExistException;
 import com.infina.likitech.exception.MusteriNotFoundException;
@@ -283,49 +292,80 @@ public class PersonelController {
 	// HAVALE PROVİZYON
 
 	@PutMapping("/musteri/hesap/{hesapID}")
-	public Hesap hesapGuncelle(@PathVariable String hesapID, @RequestParam BigDecimal hesapBakiye) {
-		return hesapService.hesapBakiyeGuncelleHP(hesapBakiye, Integer.valueOf(hesapID));
+	public ResponseEntity<Hesap> hesapGuncelle(@PathVariable String hesapID, @RequestParam BigDecimal hesapBakiye) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(hesapService.hesapBakiyeGuncelleHP(hesapBakiye, Integer.valueOf(hesapID)));
+		} catch (HesapNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	// FON STOK
 
 	@GetMapping("/fonStok/{fonStokID}")
-	public FonStok fonStokByFonStokID(@PathVariable Integer fonStokID) {
-		return fonService.fonStokByFonStokID(fonStokID);
+	public ResponseEntity<FonStok> fonStokByFonStokID(@PathVariable Integer fonStokID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonStokByFonStokID(fonStokID));
+		} catch (FonStokNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	@GetMapping("/fonStok") // ?hesapID=5
-	public List<FonStok> fonStokByHesapFonID(@RequestParam(required = false) Integer hesapID,
+	public ResponseEntity<List<FonStok>> fonStokByHesapFonID(@RequestParam(required = false) Integer hesapID,
 			@RequestParam(required = false) Integer fonID) {
-		if (hesapID == null) {
-			if (fonID != null) {
-				return fonService.fonStokByFonID(fonID);
+		try {
+			if (hesapID == null) {
+				if (fonID != null) {
+					return ResponseEntity.status(HttpStatus.OK).body(fonService.fonStokByFonID(fonID));
+				}
+				return ResponseEntity.status(HttpStatus.OK).body(fonService.fonStokByHesapID(hesapID));
 			}
-			return fonService.fonStokByHesapID(hesapID);
+			throw new NoParamArgumentsException();
+		} catch (FonStokNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
-		throw new NoParamArgumentsException();
 	}
 
 	@PostMapping("/fonStok")
-	public FonStok fonStokEkle(@RequestBody FonStok fonStok) {
-		return fonService.fonStokEkle(fonStok);
+	public ResponseEntity<FonStok> fonStokEkle(@RequestBody FonStok fonStok) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonStokEkle(fonStok));
+		} catch (FonStokCouldntAddException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 	}
 
 	@DeleteMapping("/fonStok/{fonStokID}")
-	public FonStok fonStokSil(@PathVariable Integer fonStokID) {
-		return fonService.fonStokSil(fonStokID);
+	public ResponseEntity<FonStok> fonStokSil(@PathVariable Integer fonStokID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonStokSil(fonStokID));
+		} catch (FonStokNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	@PutMapping("/fonStok/{fonStokID}")
-	public FonStok fonStokGuncelle(@RequestBody FonStok fonStok, @PathVariable Integer fonStokID) {
-		return fonService.fonStokGuncelle(fonStok, fonStokID);
+	public ResponseEntity<FonStok> fonStokGuncelle(@RequestBody FonStok fonStok, @PathVariable Integer fonStokID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonStokGuncelle(fonStok, fonStokID));
+		} catch (FonStokCouldntUpdatedException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} catch (FonStokNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	// FON
 
 	@GetMapping("/fon/{fonID}")
-	public Fon fonByFonID(@PathVariable Integer fonID) {
-		return fonService.fonByFonID(fonID);
+	public ResponseEntity<Fon> fonByFonID(@PathVariable Integer fonID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonByFonID(fonID));
+		} catch (FonNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	@GetMapping("/fon")
@@ -338,54 +378,95 @@ public class PersonelController {
 	}
 
 	@PostMapping("/fon")
-	public Fon fonEkle(@RequestBody Fon fon) {
-		return fonService.fonEkle(fon);
+	public ResponseEntity<Fon> fonEkle(@RequestBody Fon fon) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonEkle(fon));
+		} catch (FonCouldntAddException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 	}
 
 	@DeleteMapping("/fon/{fonID}")
-	public Fon fonSil(@PathVariable Integer fonID) {
-		return fonService.fonSil(fonID);
+	public ResponseEntity<Fon> fonSil(@PathVariable Integer fonID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonSil(fonID));
+		} catch (FonNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+
 	}
 
 	@PutMapping("/fon/{fonID}")
-	public Fon fonGuncelle(@RequestBody Fon fon, @PathVariable Integer fonID) {
-		return fonService.fonGuncelle(fon, fonID);
+	public ResponseEntity<Fon> fonGuncelle(@RequestBody Fon fon, @PathVariable Integer fonID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonGuncelle(fon, fonID));
+		} catch (FonCouldntUpdatedException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} catch (FonNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	// FON ISLEM
 
 	@GetMapping("/fonIslem/{fonIslemID}")
-	public FonIslem fonIslemByFonIslemID(@PathVariable Integer fonIslemID) {
-		return fonService.fonIslemByFonIslemID(fonIslemID);
+	public ResponseEntity<FonIslem> fonIslemByFonIslemID(@PathVariable Integer fonIslemID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonIslemByFonIslemID(fonIslemID));
+		} catch (FonIslemNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	@GetMapping("/fonIslem")
-	public List<FonIslem> fonIslemByHesapID(@RequestParam(name = "hesapID") Integer hesapID) {
-		return fonService.fonIslemByHesapID(hesapID);
+	public ResponseEntity<List<FonIslem>> fonIslemByHesapID(@RequestParam(name = "hesapID") Integer hesapID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonIslemByHesapID(hesapID));
+		} catch (FonIslemNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+
 	}
 
 	@PostMapping("/fonIslem")
-	public FonIslem fonIslemEkle(@RequestBody FonIslem fonIslem) {
-		return fonService.fonIslemEkle(fonIslem);
+	public ResponseEntity<FonIslem> fonIslemEkle(@RequestBody FonIslem fonIslem) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonIslemEkle(fonIslem));
+		} catch (FonIslemCouldntAddException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+
 	}
 
 	@DeleteMapping("/fonIslem/{fonIslemID}")
-	public FonIslem fonIslemSil(@PathVariable Integer fonIslemID) {
-		return fonService.fonIslemSil(fonIslemID);
+	public ResponseEntity<FonIslem> fonIslemSil(@PathVariable Integer fonIslemID) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonIslemSil(fonIslemID));
+		} catch (FonIslemNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	// FON FIYAT
 
 	@PostMapping("/fonFiyat")
-	public FonFiyat fonFiyatEkle(@RequestBody FonFiyat fonFiyat) {
-		return fonService.fonFiyatEkle(fonFiyat);
+	public ResponseEntity<FonFiyat> fonFiyatEkle(@RequestBody FonFiyat fonFiyat) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonFiyatEkle(fonFiyat));
+		} catch (FonFiyatCouldntAddException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 	}
 
 	// HESAP DTO
 
 	@GetMapping("/fonAlimSatim/hesap")
-	public List<HesapDto> hesapDtoGetir() {
-		return fonService.hesapDtoGetir();
+	public ResponseEntity<List<HesapDto>> hesapDtoGetir() {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(fonService.hesapDtoGetir());
+		} catch (HesapDtoNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 	// FON ALIM SATIM
@@ -398,16 +479,23 @@ public class PersonelController {
 	// TOLAM BAKIYELER
 
 	@GetMapping("/musteri/bakiye")
-	public BigDecimal toplamBakiyeGetir(@RequestParam String tur) {
-		if (tur.equals("TL")) {
-			return hesapService.toplamTLBakiyeGetir();
-		} else if (tur.equals("USD")) {
-			return hesapService.toplamUSDBakiyeGetir();
-		} else if (tur.equals("EURO")) {
-			return hesapService.toplamEUROBakiyeGetir();
-		} else {
-			throw new NoParamArgumentsException();
+	public ResponseEntity<BigDecimal> toplamBakiyeGetir(@RequestParam String tur) {
+		try {
+
+			if (tur.equals("TL")) {
+				return ResponseEntity.status(HttpStatus.OK).body(hesapService.toplamTLBakiyeGetir());
+			} else if (tur.equals("USD")) {
+				return ResponseEntity.status(HttpStatus.OK).body(hesapService.toplamUSDBakiyeGetir());
+			} else if (tur.equals("EURO")) {
+				return ResponseEntity.status(HttpStatus.OK).body(hesapService.toplamEUROBakiyeGetir());
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			}
+
+		} catch (NoParamArgumentsException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
+
 	}
 
 	// MAIL
