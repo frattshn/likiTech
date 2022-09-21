@@ -4,11 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,24 +49,18 @@ import com.infina.likitech.service.HesapService;
 import com.infina.likitech.service.MusteriService;
 import com.infina.likitech.service.PersonelService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/personels")
+@RequiredArgsConstructor
 public class PersonelController {
 
-	@Autowired
-	private PersonelService personelService;
-
-	@Autowired
-	private MusteriService musteriService;
-
-	@Autowired
-	private HesapService hesapService;
-
-	@Autowired
-	private FonService fonService;
-
-	@Autowired
-	private EmailService emailService;
+	private final PersonelService personelService;
+	private final MusteriService musteriService;
+	private final HesapService hesapService;
+	private final FonService fonService;
+	private final EmailService emailService;
 
 	@GetMapping(value = "/giris")
 	public Boolean giris(@RequestParam(value = "personelKullaniciAdi") String personelKullaniciAdi,
@@ -241,7 +233,11 @@ public class PersonelController {
 
 	@GetMapping("/musteri/bireysel/hesap")
 	public ResponseEntity<List<Hesap>> hesapGetirBireysel(Integer musteriID) {
-		return ResponseEntity.status(HttpStatus.OK).body(hesapService.hesapByMusteriID(musteriID));
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(hesapService.hesapByMusteriID(musteriID));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
 	}
 
 	@GetMapping("/musteri/kurumsal/hesap")
@@ -265,7 +261,7 @@ public class PersonelController {
 	@PostMapping("/musteri/hesap")
 	public ResponseEntity<Hesap> hesapEkleBireysel(@RequestBody Hesap hesap) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(hesapService.hesapEkle(hesap));
+			return ResponseEntity.status(HttpStatus.CREATED).body(hesapService.hesapEkle(hesap));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
@@ -331,7 +327,7 @@ public class PersonelController {
 	@PostMapping("/fonStok")
 	public ResponseEntity<FonStok> fonStokEkle(@RequestBody FonStok fonStok) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonStokEkle(fonStok));
+			return ResponseEntity.status(HttpStatus.CREATED).body(fonService.fonStokEkle(fonStok));
 		} catch (FonStokCouldntAddException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
@@ -380,7 +376,7 @@ public class PersonelController {
 	@PostMapping("/fon")
 	public ResponseEntity<Fon> fonEkle(@RequestBody Fon fon) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonEkle(fon));
+			return ResponseEntity.status(HttpStatus.CREATED).body(fonService.fonEkle(fon));
 		} catch (FonCouldntAddException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
@@ -431,7 +427,7 @@ public class PersonelController {
 	@PostMapping("/fonIslem")
 	public ResponseEntity<FonIslem> fonIslemEkle(@RequestBody FonIslem fonIslem) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonIslemEkle(fonIslem));
+			return ResponseEntity.status(HttpStatus.CREATED).body(fonService.fonIslemEkle(fonIslem));
 		} catch (FonIslemCouldntAddException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
@@ -452,7 +448,7 @@ public class PersonelController {
 	@PostMapping("/fonFiyat")
 	public ResponseEntity<FonFiyat> fonFiyatEkle(@RequestBody FonFiyat fonFiyat) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(fonService.fonFiyatEkle(fonFiyat));
+			return ResponseEntity.status(HttpStatus.CREATED).body(fonService.fonFiyatEkle(fonFiyat));
 		} catch (FonFiyatCouldntAddException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
@@ -509,11 +505,6 @@ public class PersonelController {
 	@PutMapping("/mail")
 	public void sifreSifirlama(@RequestParam String mail, @RequestParam String sifre, @RequestParam String yeniSifre) {
 		personelService.personelSifreGuncelleWithMail(mail, sifre, yeniSifre);
-	}
-
-	@ExceptionHandler(PersonelNotFoundException.class)
-	public ResponseEntity<String> handlePersonelNotFoundException(PersonelNotFoundException e) {
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
 
 }
